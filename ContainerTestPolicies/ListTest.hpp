@@ -1,16 +1,16 @@
 #include <list>
-#include <array>
+#include <vector>
 #include <chrono>
 
 using namespace std;
 using namespace std::chrono;
 
-template<int ArraySize>
-struct list_test {
+
+struct ListTest {
 	list<int> value_list;
 	
-	void test_insertions_impl(const array<int, ArraySize>& values) {
-		for(int i = 0; i < ArraySize; i++) {
+	void Test(const vector<int>& values) {
+		for(int i = 0; i < values.size(); i++) {
 			high_resolution_clock::time_point start = high_resolution_clock::now();
 			value_list.push_back(values[i]);
 			high_resolution_clock::time_point end = high_resolution_clock::now();
@@ -18,5 +18,8 @@ struct list_test {
 			cout << "It took me " << exectime.count() << " seconds." << endl;
 		}
 	}
+	
+	
+	
 
 };

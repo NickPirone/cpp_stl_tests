@@ -1,14 +1,14 @@
 #include "container_tests.hpp"
-#include "list_test.hpp"
+#include "ContainerTestPolicies/ListTest.hpp"
+#include "ValuePopulationPolicies/RandomDistributionPolicies.hpp"
 #include <list>
 #include <iostream>
 
 int main()
 {
 	const int total_count = 500;
-	container_test<list_test<total_count>, total_count> ct;
-	ct.populate_random_values(total_count);
-	ct.test_inserts();
+	container_test<ListTest, RandomTightDistribution, total_count> ct;
+	ct.test_container();
   	return 0;
 }
 
