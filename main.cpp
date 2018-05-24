@@ -6,7 +6,7 @@
 
 int main()
 {
-	const int total_count = 500;
+	const int total_count = 1000;
 	container_test<ListTest, RandomTightDistribution, total_count> ct;
 	ct.test_container();
   	return 0;
