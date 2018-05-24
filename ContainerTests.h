@@ -22,23 +22,23 @@
 using namespace std;
 
 
-template <typename ContainerTestPolicy, typename ValuePopulationPolicy, int ArraySize>
-struct container_test {
-	vector<int> value_vector;
-	ContainerTestPolicy container_policy;
+template <typename ContainerTestPolicy, typename ValuePopulationPolicy, int array_size>
+struct ContainerTest {
+	vector<int> value_vector_;
+	ContainerTestPolicy container_policy_;
 	
-	container_test()
+	ContainerTest()
 	{
 		srand(time(0));
-		populate();
+		PopulateValues();
 	}
 	
-	void populate() {
-		ValuePopulationPolicy::Populate(value_vector, ArraySize);
+	void PopulateValues() {
+		ValuePopulationPolicy::Populate(value_vector_, array_size);
 	}
 	
-	void test_container() {
-		container_policy.Test(value_vector);
+	void TestContainer() {
+		container_policy_.Test(value_vector_);
 	}
 	
 	

@@ -1,14 +1,24 @@
-#include "container_tests.hpp"
-#include "ContainerTestPolicies/ListTest.hpp"
-#include "ValuePopulationPolicies/RandomDistributionPolicies.hpp"
+#include "ContainerTests.h"
+#include "ContainerTestPolicies/ListTest.h"
+#include "ValuePopulationPolicies/RandomDistributionPolicies.h"
 #include <list>
 #include <iostream>
+
+/*
+	style conventions:
+	PascalCase							Typename
+	camelCase							none
+	lowercase_with_underscores			variables/function arguments
+	lowercase_with_trail_				member variable.
+*/
+
+
 
 int main()
 {
 	const int total_count = 1000;
-	container_test<ListTest, RandomTightDistribution, total_count> ct;
-	ct.test_container();
+	ContainerTest<ListTest, RandomTightDistribution, total_count> ct;
+	ct.TestContainer();
   	return 0;
 }
 
