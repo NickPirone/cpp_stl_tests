@@ -22,10 +22,10 @@ struct Tester {
 	vector<int> middle_remove_times_nanos_;
 	
 	//size_querying
-	vector<int> size_query_times_;
+	vector<int> size_query_times_nanos_;
 	
 	//clearing
-	vector<int> clear_times_;
+	vector<int> clear_times_nanos_;
 	
 //Virutal Methods
 	//testing inserts, main driver of tests
