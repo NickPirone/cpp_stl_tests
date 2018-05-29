@@ -15,9 +15,13 @@ using namespace std::chrono;
 */
 
 
-struct ListTest : Tester {
+struct ListTest : Tester<ListTest> {
 
 	list<int> value_list_;
+	
+	static string get_typename() {
+		return "list";
+	}
 	
 	void Test(const vector<int>& values) {
 		for(int i = 0; i < values.size(); i++) {
@@ -35,9 +39,6 @@ struct ListTest : Tester {
 			TestSizeQuery();
 			TestClearing();
 			//cout << "It took me " << exectime.count() << " nanoseconds." << endl;
-		}
-		for(int& num : clear_times_nanos_) {
-			cout << num << endl;
 		}
 	}
 	
