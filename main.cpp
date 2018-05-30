@@ -16,8 +16,8 @@
 
 int main()
 {
-	const int total_count = 1000;
-	ContainerTest<ListTest, RandomTightDistribution, total_count> ct;
+	const int total_count = 500;
+	ContainerTest<ListTest, RandomWideDistribution, total_count> ct;
 	ct.TestContainer();
   	return 0;
 }
