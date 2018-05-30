@@ -44,6 +44,10 @@ When defining your ContainerTest<> template parameters, you get to choose the po
 		
 As the project grows and generates more contributors who want to test different policies, we will be able to pick and choose which policy to implement in our main.cpp instead of writing all the code out ourselves!
 
-Examples:		ContainerTestPolicies/ListTest.h
-				ValuePopulationPolicies/RandomDistributionPolicies.h
-				
+Examples:
+
+		ContainerTestPolicies/ListTest.h
+		ValuePopulationPolicies/RandomDistributionPolicies.h
+
+
+
