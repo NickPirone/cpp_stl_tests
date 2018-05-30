@@ -37,7 +37,7 @@ When defining your ContainerTest<> template parameters, you get to choose the po
 		ContainerTest<ListTest, RandomWideDistribution, 1000 > ct1; 	//default
 		ContainerTest<ListTest, RandomTightDistribution, 1000> ct2; 	//changed distribution to be tight.
 		ContainerTest<VectorTest, RandomWideDistribution, 1000> ct3; 	//now testing vector instead of list.
-		ContainerTest<ListTest, RnadomWideDistribution, 500> ct4; 		//only testing up to n=500.
+		ContainerTest<ListTest, RnadomWideDistribution, 500> ct4; 	//only testing up to n=500.
 		
 		
 		
