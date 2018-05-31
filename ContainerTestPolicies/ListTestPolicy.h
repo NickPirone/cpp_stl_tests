@@ -1,18 +1,12 @@
 #include <list>
 #include <vector>
 #include <chrono>
+#include <random>
 #include "TestPolicyBase.h"
 
 using namespace std;
 using namespace std::chrono;
 
-
-/*
-		okay so here's the idea:  we can time everything--insertions, accesses, etc, but if we want these times as a function of n (number of members), then we need to do each test after each insertion.
-		
-		we should probably think of a POD structure to keep track of all of these.
-
-*/
 
 
 struct ListTestPolicy : TestPolicyBase {
@@ -25,11 +19,11 @@ struct ListTestPolicy : TestPolicyBase {
 	
 	void Test(const vector<int>& values) {
 		for(int i = 0; i < values.size(); i++) {
-			high_resolution_clock::time_point start = high_resolution_clock::now();
 			value_list_.push_back(values[i]);
-			high_resolution_clock::time_point end = high_resolution_clock::now();
-			nanoseconds exectime = duration_cast<nanoseconds>(end - start);
-			insertion_times_nanos_.push_back(exectime.count());
+			int randInt = rand() % 1000000;
+			TestMiddleInsertion(randInt, value_list_.size() / 2);
+			TestFrontInsertion(randInt);
+			TestBackInsertion(randInt);
 			TestMiddleAccess(value_list_.size() / 2);
 			TestFrontAccess();
 			TestBackAccess();
@@ -43,6 +37,35 @@ struct ListTestPolicy : TestPolicyBase {
 			TestClearing();
 			//cout << "It took me " << exectime.count() << " nanoseconds." << endl;
 		}
+	}
+	
+	void TestMiddleInsertion(int& value, int index) {
+		high_resolution_clock::time_point start = high_resolution_clock::now();
+		auto iter = value_list_.begin();
+		advance(iter, index);
+		auto remove_iter = value_list_.insert(iter, value);
+		high_resolution_clock::time_point end = high_resolution_clock::now();
+		value_list_.erase(remove_iter);
+		nanoseconds exectime = duration_cast<nanoseconds>(end-start);
+		middle_insertion_times_nanos_.push_back(exectime.count());
+	}
+	
+	void TestFrontInsertion(int& value) {
+		high_resolution_clock::time_point start = high_resolution_clock::now();
+		value_list_.push_front(value);
+		high_resolution_clock::time_point end = high_resolution_clock::now();
+		value_list_.pop_front();
+		nanoseconds exectime = duration_cast<nanoseconds>(end-start);
+		front_insertion_times_nanos_.push_back(exectime.count());
+	}
+	
+	void TestBackInsertion(int& value) {
+		high_resolution_clock::time_point start = high_resolution_clock::now();
+		value_list_.push_back(value);
+		high_resolution_clock::time_point end = high_resolution_clock::now();
+		value_list_.pop_back();
+		nanoseconds exectime = duration_cast<nanoseconds>(end-start);
+		back_insertion_times_nanos_.push_back(exectime.count());
 	}
 	
 	void TestMiddleAccess(int index) {

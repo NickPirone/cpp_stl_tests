@@ -6,7 +6,9 @@ struct TestPolicyBase {
 
 //Data Members:
 	//insertion
-	vector<int> insertion_times_nanos_;
+	vector<int> back_insertion_times_nanos_;
+	vector<int> front_insertion_times_nanos_;
+	vector<int> middle_insertion_times_nanos_;
 	
 	//access
 	vector<int> front_access_times_nanos_;
@@ -33,6 +35,11 @@ struct TestPolicyBase {
 
 	//testing inserts, main driver of tests
 	virtual void Test(const vector<int>& values) = 0;
+	
+	//testing insertion:
+	virtual void TestMiddleInsertion(int& value, int index) = 0;
+	virtual void TestFrontInsertion(int& value) = 0;
+	virtual void TestBackInsertion(int& value) = 0;
 
 	//testing access
 	virtual void TestMiddleAccess(int index) = 0;
