@@ -1,7 +1,7 @@
 #include <list>
 #include <vector>
 #include <chrono>
-#include "Tester.h"
+#include "TestPolicyBase.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -15,12 +15,12 @@ using namespace std::chrono;
 */
 
 
-struct ListTest : Tester<ListTest> {
+struct ListTestPolicy : TestPolicyBase {
 
 	list<int> value_list_;
 	
 	static string get_typename() {
-		return "list";
+		return "List";
 	}
 	
 	void Test(const vector<int>& values) {
