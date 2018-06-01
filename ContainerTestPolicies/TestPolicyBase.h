@@ -1,10 +1,19 @@
 #include <vector>
+#include <chrono>
+#include <mutex>
 
 using namespace std;
 
 struct TestPolicyBase {
 
 //Data Members:
+
+	//clocks to save garbage collection:
+	chrono::high_resolution_clock::time_point start_;
+	chrono::high_resolution_clock::time_point end_;
+	chrono::nanoseconds exec_time_;
+	mutex clock_mutex_;
+
 	//insertion
 	vector<int> back_insertion_times_nanos_;
 	vector<int> front_insertion_times_nanos_;
