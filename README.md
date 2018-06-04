@@ -3,13 +3,15 @@ testing performance of STL containers scientifically.
 
 This program (in its most basic sense) will:  
 a.  generate a bunch of numbers to be inserted into our container.  
-b.  insert the numbers one by one, each time taking a sample timing of:  
+b.  insert the numbers one by one, each time taking a sample timing of:
+<pre>
 	1.  insertion  
 	2.  access  
 	3.  search  
 	4.  removal  
 	5.  size querying  
 	6.  clearing  
+</pre>
 c.  write the obtained output to the Output directory. 
 
 
