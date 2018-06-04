@@ -1,15 +1,15 @@
 # cpp_stl_tests
 testing performance of STL containers scientifically.
 
-This program (in its most basic sense) will: \n
-a.  generate a bunch of numbers to be inserted into our container. \n
-b.  insert the numbers one by one, each time taking a sample timing of: \n
-	1.  insertion \n
-	2.  access \n
-	3.  search \n
-	4.  removal \n
-	5.  size querying \n
-	6.  clearing \n
+This program (in its most basic sense) will:  
+a.  generate a bunch of numbers to be inserted into our container.  
+b.  insert the numbers one by one, each time taking a sample timing of:  
+	1.  insertion  
+	2.  access  
+	3.  search  
+	4.  removal  
+	5.  size querying  
+	6.  clearing  
 c.  write the obtained output to the Output directory. 
 
 
