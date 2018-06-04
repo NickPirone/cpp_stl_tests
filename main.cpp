@@ -1,5 +1,6 @@
 #include "ContainerTests.h"
 #include "ContainerTestPolicies/ListTestPolicy.h"
+#include "ContainerTestPolicies/VectorTestPolicy.h"
 #include "ValuePopulationPolicies/RandomDistributionPolicy.h"
 #include <list>
 #include <iostream>
@@ -17,8 +18,10 @@
 int main()
 {
 	const int total_count = 500;
-	ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count> ct;
-	ct.TestContainer();
+	ContainerTest<VectorTestPolicy, RandomDistributionPolicy<100000>, total_count> ct1;
+	ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count> ct2;
+	ct1.TestContainer();
+	ct2.TestContainer();
   	return 0;
 }
 
