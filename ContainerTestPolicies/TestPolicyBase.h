@@ -42,10 +42,13 @@ struct TestPolicyBase {
 	//clearing
 	vector<int> clear_times_nanos_;
 	
+	//comparison finding
+	vector<int> find_smallest_times_nanos_;
+	
 //Virutal Methods
 
 	//testing inserts, main driver of tests
-	virtual void Test(const vector<int>& values) = 0;
+	virtual void AddNextValue(const int& val) = 0;
 	
 	//testing insertion:
 	virtual void TestMiddleInsertion(int& value, int index) = 0;
@@ -72,5 +75,8 @@ struct TestPolicyBase {
 	
 	//clearing
 	virtual void TestClearing() = 0;
+	
+	//comparison finding
+	virtual void TestFindSmallest() = 0;
 	
 };

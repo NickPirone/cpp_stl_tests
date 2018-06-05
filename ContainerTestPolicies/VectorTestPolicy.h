@@ -1,6 +1,7 @@
 #include <vector>
 #include <chrono>
 #include <random>
+#include <limits>
 #include "TestPolicyBase.h"
 
 using namespace std;
@@ -10,72 +11,54 @@ using namespace std::chrono;
 
 struct VectorTestPolicy : TestPolicyBase {
 
-	vector<int> value_vec_;
+	vector<int> values_;
 	
 	static string get_typename() {
 		return "Vector";
 	}
 	
-	void Test(const vector<int>& values) {
-		for(int i = 0; i < values.size(); i++) {
-			value_vec_.push_back(values[i]);
-			int randInt = rand() % 1000000;
-			TestMiddleInsertion(randInt, value_vec_.size() / 2);
-			TestFrontInsertion(randInt);
-			TestBackInsertion(randInt);
-			TestMiddleAccess(value_vec_.size() / 2);
-			TestFrontAccess();
-			TestBackAccess();
-			TestMiddleSearch(value_vec_.size() / 2);
-			TestFrontSearch();
-			TestBackSearch();
-			TestMiddleRemoval(value_vec_.size() / 2);
-			TestFrontRemoval();
-			TestBackRemoval();
-			TestSizeQuery();
-			TestClearing();
-			//cout << "It took me " << exec_time_.count() << " nanoseconds." << endl;
-		}
+	void AddNextValue(const int& val) {
+		values_.push_back(val);
 	}
 	
 	void TestMiddleInsertion(int& value, int index) {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		value_vec_.insert(value_vec_.begin() + index, value);
+		values_.insert(values_.begin() + index, value);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		middle_insertion_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.erase(value_vec_.begin() + index);
+		values_.erase(values_.begin() + index);
 	}
 	
 	void TestFrontInsertion(int& value) {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		value_vec_.insert(value_vec_.begin(), value);
+		values_.insert(values_.begin(), value);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		front_insertion_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.erase(value_vec_.begin());
+		values_.erase(values_.begin());
 	}
 	
 	void TestBackInsertion(int& value) {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		value_vec_.push_back(value);
+		values_.push_back(value);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		back_insertion_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.pop_back();
+		values_.pop_back();
 	}
 	
 	void TestMiddleAccess(int index) {
 		//because the write to register will be the same no matter N, we can still get a good comparison.
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		int a = value_vec_[index];
+		int a = values_[index];
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		middle_access_times_nanos_.push_back(exec_time_.count());
@@ -85,7 +68,7 @@ struct VectorTestPolicy : TestPolicyBase {
 	void TestFrontAccess() {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		int a = value_vec_.front();
+		int a = values_.front();
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		front_access_times_nanos_.push_back(exec_time_.count());
@@ -95,7 +78,7 @@ struct VectorTestPolicy : TestPolicyBase {
 	void TestBackAccess() {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		int a = value_vec_.back();
+		int a = values_.back();
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		back_access_times_nanos_.push_back(exec_time_.count());
@@ -103,11 +86,11 @@ struct VectorTestPolicy : TestPolicyBase {
 	}
 	
 	void TestMiddleSearch(int index) {
-		int a = value_vec_[index];
+		int a = values_[index];
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		for(int i = 0; i < value_vec_.size(); i++) {
-			if(value_vec_[i] == a){
+		for(int i = 0; i < values_.size(); i++) {
+			if(values_[i] == a){
 				break;
 			}
 		}
@@ -119,11 +102,11 @@ struct VectorTestPolicy : TestPolicyBase {
 	
 	void TestFrontSearch() {
 		//because list does not have a search function, we should test a linear search
-		int a = value_vec_.front();
+		int a = values_.front();
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		for(int i = 0; i < value_vec_.size(); i++) {
-			if(value_vec_[i] == a){
+		for(int i = 0; i < values_.size(); i++) {
+			if(values_[i] == a){
 				break;
 			}
 		}
@@ -139,11 +122,11 @@ struct VectorTestPolicy : TestPolicyBase {
 		//from the 0-index, however for different distributions we will see interesting results.
 		//e.g. in a tight distributions where we have many repetitions and just need the first one, it is
 		//possible we may see marginal performance decrease.
-		int a = value_vec_.back();
+		int a = values_.back();
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		for(int i = 0; i < value_vec_.size(); i++) {
-			if(value_vec_[i] == a){
+		for(int i = 0; i < values_.size(); i++) {
+			if(values_[i] == a){
 				break;
 			}
 		}
@@ -155,50 +138,50 @@ struct VectorTestPolicy : TestPolicyBase {
 	
 	//removal
 	void TestMiddleRemoval(int index) {
-		auto temp_iter = value_vec_.begin();
+		auto temp_iter = values_.begin();
 		advance(temp_iter, index);
 		int a = *temp_iter; //get temporary value before timing.
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		auto iter = value_vec_.begin();
+		auto iter = values_.begin();
 		advance(iter, index);
-		auto replace_iter = value_vec_.erase(iter);
+		auto replace_iter = values_.erase(iter);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		middle_remove_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.insert(replace_iter, a);
+		values_.insert(replace_iter, a);
 	}
 	
 	void TestFrontRemoval() {
-		int a = value_vec_.front();
+		int a = values_.front();
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		value_vec_.erase(value_vec_.begin());
+		values_.erase(values_.begin());
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		front_remove_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.insert(value_vec_.begin(), a);
+		values_.insert(values_.begin(), a);
 	}
 	
 	void TestBackRemoval() {
-		int a = value_vec_.back();
+		int a = values_.back();
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		value_vec_.pop_back();
+		values_.pop_back();
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		back_remove_times_nanos_.push_back(exec_time_.count());
 		clock_mutex_.unlock();
-		value_vec_.push_back(a);
+		values_.push_back(a);
 	}
 	
 	//size_query
 	void TestSizeQuery() {
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		int a = value_vec_.size();
+		int a = values_.size();
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		size_query_times_nanos_.push_back(exec_time_.count());
@@ -207,7 +190,7 @@ struct VectorTestPolicy : TestPolicyBase {
 	
 	//clearing
 	void TestClearing() {
-		vector<int> copy_vector_(value_vec_);
+		vector<int> copy_vector_(values_);
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
 		copy_vector_.clear();
@@ -217,5 +200,18 @@ struct VectorTestPolicy : TestPolicyBase {
 		clock_mutex_.unlock();
 	}
 	
-
+	void TestFindSmallest() {
+		int smallest = numeric_limits<int>::max();
+		clock_mutex_.lock();
+		start_ = high_resolution_clock::now();
+		//we will have to check every value since it is unordered.
+		for(int i = 0; i < values_.size(); i++) {
+			if(values_[i] < smallest) smallest = values_[i];
+		}
+		end_ = high_resolution_clock::now();
+		exec_time_ = duration_cast<nanoseconds>(end_-start_);
+		find_smallest_times_nanos_.push_back(exec_time_.count());
+		clock_mutex_.unlock();
+	}
+	
 };
