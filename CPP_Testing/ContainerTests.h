@@ -36,7 +36,7 @@ struct ContainerTest {
 	}
 	
 	~ContainerTest() {
-		string filePath = "Output/" + ContainerTestPolicy::get_typename() + "_" + ValuePopulationPolicy::get_typename();
+		string filePath = "../Output/" + ContainerTestPolicy::get_typename() + "_" + ValuePopulationPolicy::get_typename();
 		fstream out_strm(filePath, fstream::out | ios::trunc);
 		out_strm << 	"front_insertion, front_access, front_search, front_remove, back_insertion, back_access, back_search, back_remove, middle_insertion, middle_access, middle_search, middle_remove, size_query, clear, find_smallest" << endl;
 		bool front_enabled = true;
