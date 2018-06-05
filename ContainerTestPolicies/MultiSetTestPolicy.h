@@ -9,12 +9,12 @@ using namespace std::chrono;
 
 
 
-struct SetTestPolicy : TestPolicyBase {
+struct MultiSetTestPolicy : TestPolicyBase {
 
-	set<int> values_;
+	multiset<int> values_;
 	
 	static string get_typename() {
-		return "Set";
+		return "MultiSet";
 	}
 	
 	void AddNextValue(const int& val) {
@@ -118,7 +118,7 @@ struct SetTestPolicy : TestPolicyBase {
 		int a = *temp_iter; //get temporary value before timing.
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		values_.erase(a);
+		values_.erase(temp_iter);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		middle_remove_times_nanos_.push_back(exec_time_.count());
@@ -130,7 +130,7 @@ struct SetTestPolicy : TestPolicyBase {
 		int a = *(values_.begin());
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		values_.erase(a);
+		values_.erase(values_.begin());
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		front_remove_times_nanos_.push_back(exec_time_.count());
@@ -139,10 +139,12 @@ struct SetTestPolicy : TestPolicyBase {
 	}
 	
 	void TestBackRemoval() {
-		int a = *(values_.rbegin());
+		auto last_iter = values_.end();
+		last_iter--;
+		int a = *(last_iter);
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		values_.erase(a);
+		values_.erase(last_iter);
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		back_remove_times_nanos_.push_back(exec_time_.count());
@@ -163,7 +165,7 @@ struct SetTestPolicy : TestPolicyBase {
 	
 	//clearing
 	void TestClearing() {
-		set<int> copy_set_(values_);
+		multiset<int> copy_set_(values_);
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
 		copy_set_.clear();
