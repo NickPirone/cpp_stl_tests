@@ -1,5 +1,4 @@
-#include <list>
-#include <vector>
+#include <deque>
 #include <chrono>
 #include <random>
 #include <limits>
@@ -10,12 +9,12 @@ using namespace std::chrono;
 
 
 
-struct ListTestPolicy : TestPolicyBase {
+struct DequeTestPolicy : TestPolicyBase {
 
-	list<int> values_;
+	deque<int> values_;
 	
 	static string get_typename() {
-		return "List";
+		return "Deque";
 	}
 	
 	void AddNextValue(const int& val) {
@@ -61,9 +60,7 @@ struct ListTestPolicy : TestPolicyBase {
 		//because the write to register will be the same no matter N, we can still get a good comparison.
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
-		auto iter = values_.begin();
-		advance(iter, index);
-		int a = *iter;
+		int a = values_[index];
 		end_ = high_resolution_clock::now();
 		exec_time_ = duration_cast<nanoseconds>(end_-start_);
 		middle_access_times_nanos_.push_back(exec_time_.count());
@@ -91,9 +88,7 @@ struct ListTestPolicy : TestPolicyBase {
 	}
 	
 	void TestMiddleSearch(int index) {
-		auto iter_one = values_.begin();
-		advance(iter_one, index);
-		int a = *iter_one;
+		int a = values_[index];
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
 		for(auto iter = values_.begin(); iter != values_.end(); iter++) {
@@ -140,9 +135,7 @@ struct ListTestPolicy : TestPolicyBase {
 	
 	//removal
 	void TestMiddleRemoval(int index) {
-		auto temp_iter = values_.begin();
-		advance(temp_iter, index);
-		int a = *temp_iter; //get temporary value before timing.
+		int a = values_[index]; //get temporary value before timing.
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
 		auto iter = values_.begin();
@@ -192,7 +185,7 @@ struct ListTestPolicy : TestPolicyBase {
 	
 	//clearing
 	void TestClearing() {
-		list<int> copy_list_(values_);
+		deque<int> copy_list_(values_);
 		clock_mutex_.lock();
 		start_ = high_resolution_clock::now();
 		copy_list_.clear();

@@ -3,6 +3,7 @@
 #include "ContainerTestPolicies/VectorTestPolicy.h"
 #include "ContainerTestPolicies/MultiSetTestPolicy.h"
 #include "ContainerTestPolicies/UnorderedMultiSetTestPolicy.h"
+#include "ContainerTestPolicies/DequeTestPolicy.h"
 #include "ValuePopulationPolicies/RandomDistributionPolicy.h"
 #include <list>
 #include <iostream>
@@ -24,10 +25,12 @@ int main()
 	ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count> ct2;
 	ContainerTest<MultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count> ct3;
 	ContainerTest<UnorderedMultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count> ct4;
+	ContainerTest<DequeTestPolicy, RandomDistributionPolicy<100000>, total_count> ct5;
 	ct1.TestContainer();
 	ct2.TestContainer();
 	ct3.TestContainer();
 	ct4.TestContainer();
+	ct5.TestContainer();
   	return 0;
 }
 
