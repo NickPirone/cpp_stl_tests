@@ -7,6 +7,7 @@
 #include "ValuePopulationPolicies/RandomDistributionPolicy.h"
 #include <list>
 #include <iostream>
+#include <chrono>
 
 /*
 	style conventions:
@@ -15,11 +16,12 @@
 	lowercase_with_underscores			variables/function arguments
 	lowercase_with_trail_				member variable.
 */
-
+using namespace std::chrono;
 
 
 int main()
 {
+	high_resolution_clock::time_point start_ = high_resolution_clock::now();
 	const int total_count = 500;
 	ContainerTest<VectorTestPolicy, RandomDistributionPolicy<100000>, total_count> ct1;
 	ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count> ct2;
@@ -31,6 +33,9 @@ int main()
 	ct3.TestContainer();
 	ct4.TestContainer();
 	ct5.TestContainer();
+	high_resolution_clock::time_point end_ = high_resolution_clock::now();
+	nanoseconds time = duration_cast<nanoseconds>(end_ - start_);
+	std::cout << time.count() << std::endl;
   	return 0;
 }
 
