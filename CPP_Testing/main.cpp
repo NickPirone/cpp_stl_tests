@@ -8,6 +8,7 @@
 #include <list>
 #include <iostream>
 #include <chrono>
+#include <thread>
 
 /*
 	style conventions:
@@ -28,11 +29,16 @@ int main()
 	ContainerTest<MultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count> ct3;
 	ContainerTest<UnorderedMultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count> ct4;
 	ContainerTest<DequeTestPolicy, RandomDistributionPolicy<100000>, total_count> ct5;
-	ct1.TestContainer();
-	ct2.TestContainer();
-	ct3.TestContainer();
-	ct4.TestContainer();
-	ct5.TestContainer();
+	thread t1([&] (ContainerTest<VectorTestPolicy, RandomDistributionPolicy<100000>, total_count>* ct) { ct->TestContainer(); }, &ct1);
+	thread t2([&] (ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count>* ct) { ct->TestContainer(); }, &ct2);
+	thread t3([&] (ContainerTest<MultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count>* ct) { ct->TestContainer(); }, &ct3);
+	thread t4([&] (ContainerTest<UnorderedMultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count>* ct) { ct->TestContainer(); }, &ct4);
+	thread t5([&] (ContainerTest<DequeTestPolicy, RandomDistributionPolicy<100000>, total_count>* ct) { ct->TestContainer(); }, &ct5);
+	t1.join();
+	t2.join();
+	t3.join();
+	t4.join();
+	t5.join();
 	high_resolution_clock::time_point end_ = high_resolution_clock::now();
 	nanoseconds time = duration_cast<nanoseconds>(end_ - start_);
 	std::cout << time.count() << std::endl;
