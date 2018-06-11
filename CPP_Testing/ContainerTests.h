@@ -38,7 +38,7 @@ struct ContainerTest {
 	~ContainerTest() {
 		string filePath = "../Output/" + ContainerTestPolicy::get_typename() + "_" + ValuePopulationPolicy::get_typename() + ".csv";
 		fstream out_strm(filePath, fstream::out | ios::trunc);
-		out_strm << 	"n, front_insertion, front_access, front_search, front_remove, back_insertion, back_access, back_search, back_remove, middle_insertion, middle_access, middle_search, middle_remove, size_query, clear, find_smallest" << endl;
+		out_strm << 	"n,front_insertion,front_access,front_search,front_remove,back_insertion,back_access,back_search, back_remove,middle_insertion,middle_access,middle_search,middle_remove,size_query,clear,find_smallest" << endl;
 		bool front_enabled = true;
 		bool back_enabled = true;
 		bool mid_enabled = true;
@@ -47,7 +47,7 @@ struct ContainerTest {
 		if(container_policy_.middle_access_times_nanos_.size() == 0) mid_enabled = false;
 		
 		for(int i = 0; i < array_size; i++) {
-			out_strm << i << ",";
+			out_strm << (i+1) << ",";
 			if(front_enabled) {
 				out_strm << container_policy_.front_insertion_times_nanos_[i] << ",";
 				out_strm << container_policy_.front_access_times_nanos_[i] << ",";

@@ -23,7 +23,7 @@ using namespace std::chrono;
 int main()
 {
 	high_resolution_clock::time_point start_ = high_resolution_clock::now();
-	const int total_count = 500;
+	const int total_count = 5000;
 	ContainerTest<VectorTestPolicy, RandomDistributionPolicy<100000>, total_count> ct1;
 	ContainerTest<ListTestPolicy, RandomDistributionPolicy<100000>, total_count> ct2;
 	ContainerTest<MultiSetTestPolicy, RandomDistributionPolicy<100000>, total_count> ct3;
@@ -45,33 +45,3 @@ int main()
   	return 0;
 }
 
-
-
-
-
-/*
-#include <iostream>
-#include <ctime>
-#include <ratio>
-#include <chrono>
-
-int main ()
-{
-  using namespace std::chrono;
-
-  high_resolution_clock::time_point t1 = high_resolution_clock::now();
-
-  std::cout << "printing out 1000 stars...\n";
-  for (int i=0; i<1000; ++i) std::cout << "*";
-  std::cout << std::endl;
-
-  high_resolution_clock::time_point t2 = high_resolution_clock::now();
-
-  duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-
-  std::cout << "It took me " << time_span.count() << " seconds.";
-  std::cout << std::endl;
-
-  return 0;
-}
-*/
