@@ -6,7 +6,7 @@
 
 using namespace std;
 
-struct TestPolicyBase {
+struct DataHelper {
 
 //Data Members:
 
@@ -14,7 +14,6 @@ struct TestPolicyBase {
 	chrono::high_resolution_clock::time_point start_;
 	chrono::high_resolution_clock::time_point end_;
 	chrono::nanoseconds exec_time_;
-	mutex clock_mutex_;
 
 	//insertion
 	vector<int> back_insertion_times_nanos_;
@@ -45,7 +44,7 @@ struct TestPolicyBase {
 	//comparison finding
 	vector<int> find_smallest_times_nanos_;
 	
-//Virutal Methods
+/*Virutal Methods
 
 	//testing inserts, main driver of tests
 	virtual void AddNextValue(const int& val) = 0;
@@ -78,5 +77,5 @@ struct TestPolicyBase {
 	
 	//comparison finding
 	virtual void TestFindSmallest() = 0;
-	
+*/
 };

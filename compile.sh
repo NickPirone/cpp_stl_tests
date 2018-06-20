@@ -1,0 +1,1 @@
+g++ CPP_Testing/main.cpp -o CPP_Testing/main -w -std=c++11

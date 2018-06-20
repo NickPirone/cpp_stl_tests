@@ -42,33 +42,33 @@ struct ContainerTest {
 		bool front_enabled = true;
 		bool back_enabled = true;
 		bool mid_enabled = true;
-		if(container_policy_.front_access_times_nanos_.size() == 0) front_enabled = false;
-		if(container_policy_.back_access_times_nanos_.size() == 0) back_enabled = false;
-		if(container_policy_.middle_access_times_nanos_.size() == 0) mid_enabled = false;
+		if(container_policy_.data_.front_access_times_nanos_.size() == 0) front_enabled = false;
+		if(container_policy_.data_.back_access_times_nanos_.size() == 0) back_enabled = false;
+		if(container_policy_.data_.middle_access_times_nanos_.size() == 0) mid_enabled = false;
 		
 		for(int i = 0; i < array_size; i++) {
 			out_strm << (i+1) << ",";
 			if(front_enabled) {
-				out_strm << container_policy_.front_insertion_times_nanos_[i] << ",";
-				out_strm << container_policy_.front_access_times_nanos_[i] << ",";
-				out_strm << container_policy_.front_search_times_nanos_[i] << ",";
-				out_strm << container_policy_.front_remove_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.front_insertion_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.front_access_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.front_search_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.front_remove_times_nanos_[i] << ",";
 			} else out_strm << "0,0,0,";
 			if(back_enabled) {
-				out_strm << container_policy_.back_insertion_times_nanos_[i] << ",";
-				out_strm << container_policy_.back_access_times_nanos_[i] << ",";
-				out_strm << container_policy_.back_search_times_nanos_[i] << ",";
-				out_strm << container_policy_.back_remove_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.back_insertion_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.back_access_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.back_search_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.back_remove_times_nanos_[i] << ",";
 			} else out_strm << "0,0,0,";
 			if(mid_enabled) {
-				out_strm << container_policy_.middle_insertion_times_nanos_[i] << ",";
-				out_strm << container_policy_.middle_access_times_nanos_[i] << ",";
-				out_strm << container_policy_.middle_search_times_nanos_[i] << ",";
-				out_strm << container_policy_.middle_remove_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.middle_insertion_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.middle_access_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.middle_search_times_nanos_[i] << ",";
+				out_strm << container_policy_.data_.middle_remove_times_nanos_[i] << ",";
 			} else out_strm << "0,0,0,";
-			out_strm << container_policy_.size_query_times_nanos_[i] << ",";
-			out_strm << container_policy_.clear_times_nanos_[i] << ",";
-			out_strm << container_policy_.find_smallest_times_nanos_[i];
+			out_strm << container_policy_.data_.size_query_times_nanos_[i] << ",";
+			out_strm << container_policy_.data_.clear_times_nanos_[i] << ",";
+			out_strm << container_policy_.data_.find_smallest_times_nanos_[i];
 			out_strm << endl;
 		}
 		out_strm.close();
